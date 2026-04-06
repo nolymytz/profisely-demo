@@ -9,10 +9,6 @@ function tickDate(v: string) {
   const d = new Date(v + "T00:00:00");
   return `${d.getMonth() + 1}/${d.getDate()}`;
 }
-function fmt(n: number) {
-  if (Math.abs(n) >= 1000) return `$${(n / 1000).toFixed(1)}k`;
-  return `$${n.toFixed(0)}`;
-}
 
 const tipStyle = {
   backgroundColor: "#ffffff",
@@ -28,7 +24,7 @@ export default function DemoCharts({ data }: { data: ChartPoint[] }) {
   if (!data.length) {
     return (
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        {["Net Profit", "Avg Margin", "Fees Paid"].map((label) => (
+        {["Net Profit", "Avg Margin", "Revenue"].map((label) => (
           <div key={label} className="bg-surface-container-lowest rounded-xl border border-outline-variant/10 shadow-sm p-5 flex items-center justify-center h-44 text-on-surface-variant text-xs">
             No data yet
           </div>
@@ -38,7 +34,7 @@ export default function DemoCharts({ data }: { data: ChartPoint[] }) {
   }
 
   const totalNetProfit = data.reduce((s, d) => s + d.netProfit, 0);
-  const totalFees      = data.reduce((s, d) => s + (d as ChartPoint & { fees?: number }).fees ?? 0, 0);
+  const totalRevenue   = data.reduce((s, d) => s + d.revenue,   0);
 
   const marginData = data.map((d) => ({
     date:   d.date,
@@ -95,7 +91,7 @@ export default function DemoCharts({ data }: { data: ChartPoint[] }) {
       <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/10 shadow-sm p-5">
         <p className="text-[10px] font-semibold tracking-widest uppercase text-on-surface-variant mb-0.5">Revenue</p>
         <p className="font-headline text-2xl font-bold tabular-nums mb-3 text-blue-600">
-          {fmtFull(data.reduce((s, d) => s + d.revenue, 0))}
+          {fmtFull(totalRevenue)}
         </p>
         <ResponsiveContainer width="100%" height={90}>
           <BarChart data={data} margin={{ top: 2, right: 2, bottom: 0, left: 0 }}>
