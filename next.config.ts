@@ -1,8 +1,1 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  output: "export",
-  images: { unoptimized: true },
-};
-
-export default nextConfig;
+// This file is intentionally left empty — config moved to next.config.mjs
